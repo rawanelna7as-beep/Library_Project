@@ -1,0 +1,75 @@
+=== Task 1: SQL Queries and Answers ===
+
+--- Question 1: Per-Member Borrowing Counts ---
+SELECT 
+    m.member_id,
+    m.first_name,
+    m.last_name,
+    COUNT(c.checkout_id) AS total_checkouts
+FROM members m
+LEFT JOIN checkouts c 
+    ON m.member_id = c.member_id
+GROUP BY m.member_id, m.first_name, m.last_name
+ORDER BY m.member_id ASC;
+
+
+--- Question 2: Books Matching an Author Pattern ---
+SELECT 
+    book_id,
+    title,
+    author
+FROM books
+WHERE author LIKE 'Amina%';
+
+
+--- Question 3: Five Most Popular Books ---
+SELECT 
+    b.book_id,
+    b.title,
+    COUNT(c.checkout_id) AS checkout_count
+FROM books b
+JOIN checkouts c 
+    ON b.book_id = c.book_id
+GROUP BY b.book_id, b.title
+ORDER BY checkout_count DESC
+LIMIT 5;
+
+
+--- Question 4: Top Ten Most Active Readers ---
+SELECT 
+    m.member_id,
+    m.first_name,
+    m.last_name,
+    COUNT(c.checkout_id) AS total_checkouts
+FROM members m
+JOIN checkouts c 
+    ON m.member_id = c.member_id
+GROUP BY m.member_id, m.first_name, m.last_name
+ORDER BY total_checkouts DESC
+LIMIT 10;
+
+
+--- Question 5: Neighborhood Checkouts (Maadi - Second Set of 10) ---
+SELECT 
+    c.checkout_id,
+    c.member_id,
+    c.book_id,
+    c.checkout_date,
+    m.neighborhood
+FROM checkouts c
+JOIN members m 
+    ON c.member_id = m.member_id
+WHERE LOWER(TRIM(m.neighborhood)) LIKE 'maadi%'
+ORDER BY c.checkout_date DESC
+LIMIT 10 OFFSET 10;
+
+
+=== Source Comparison: Web Page (HTML) vs. Database/API ===
+1. Data Structure & Machine Readability:
+Relational databases and APIs provide structured, strongly-typed schema data that can be queried directly using SQL or consumed via structured endpoints. In contrast, web pages (HTML) are designed primarily for visual layout in browsers, nesting records within tags like <table>, <tr>, and <td> which require scraping and parsing.
+
+2. Data Quality & Completeness:
+Database systems enforce relational integrity, data types, and primary/foreign key constraints. Web-logged signup data from events often contains missing fields (such as unrecorded return dates) or unstructured inputs from manual entries.
+
+3. Impact on the Project:
+Processing data from the HTML file required extraction via BeautifulSoup, field alignment, and schema standardization before merging it with clean SQLite database records.
