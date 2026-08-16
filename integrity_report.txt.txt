@@ -1,0 +1,5 @@
+Data Integrity Report
+1. Missing Values: Identified and handled missing values in the dataset using appropriate fill strategies and removing rows with critical missing information.
+2. Duplicates: Checked for and removed duplicate entries to ensure data unique integrity.
+3. Data Types & Formatting: Standardized column data types (such as dates, numeric values, and strings) to ensure consistency across Task 1 and Task 2 datasets.
+4. Outliers & Invalid Entries: Validated data ranges to ensure all values (e.g., prices, counts) fall within realistic parameters.
